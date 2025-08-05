@@ -9,7 +9,7 @@ import java.util.List;
 
 public class EnrollmentService {
 
-    public static void givenCourseAfterGivenDate(List<Student> students, List<Enrollment> enrollmentList, EnrollmentFilter filter, LocalDate date) {
+    public static void givenCourseAfterGivenDate(List<Student> students, List<Enrollment> enrollmentList, EnrollmentFilter filter) {
         enrollmentList.stream()
                 .filter(filter::matches)
                 .forEach(System.out::println);

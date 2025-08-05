@@ -1,8 +1,10 @@
 package repository_layer;
 
+import modeling.Course;
 import modeling.Enrollment;
 import modeling.Student;
 import util.DBUtil;
+
 import java.sql.*;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -46,11 +48,9 @@ public class EnrollmentRepository {
             long betweenDay = ChronoUnit.DAYS.between(startDate, endDate);
             long randomDay = rand.nextInt((int) betweenDay + 1);
             LocalDate randomDate = startDate.plusDays(randomDay);
-            int randomGrade = rand.nextInt(50) + 50;
-
+            int randomGrade = rand.nextInt(50) + 51;
 
             if (studentId != -1 && courseId != -1) {
-
                 Enrollment enrollment = new Enrollment(studentId, courseId, randomDate, randomGrade);
                 enrollments.add(enrollment);
                 enrollment.setStudentId(studentId);
@@ -96,7 +96,7 @@ public class EnrollmentRepository {
                 Date enrollmentDate = rs.getDate("enrollment_date");
                 Double enrollmentGrade = rs.getDouble("grade");
                 System.out.println("Student id :  0000" + studentId + " Course id:  0000".concat(" | ").concat("Enrollment Date: ".concat(String.valueOf(enrollmentDate)).concat(" |  ").concat(String.valueOf(enrollmentGrade))));
-                System.out.println("---------------------------------------"+'\n');
+                System.out.println("---------------------------------------" + '\n');
 
             }
         }
@@ -115,7 +115,7 @@ public class EnrollmentRepository {
             System.out.println(numberAddStudent + "  Update Enrollment...");
             System.out.println("---------------------------------------");
             System.out.println(" Update information for Enrollment id: 0000" + studentId + " -> update grade   |   new value of grade: " + grade);
-            System.out.println("---------------------------------------"+'\n');
+            System.out.println("---------------------------------------" + '\n');
 
 
         } catch (SQLException e) {
@@ -131,9 +131,9 @@ public class EnrollmentRepository {
             preparedStatement.setInt(1, studentId);
             int numberAddStudent = preparedStatement.executeUpdate();
             System.out.println(numberAddStudent + "  Delete Enrollment...");
-            System.out.println("---------------------------------------"+'\n');
+            System.out.println("---------------------------------------" + '\n');
             System.out.println("Delete Enrollment -> Student id : 0000" + studentId);
-            System.out.println("---------------------------------------"+'\n');
+            System.out.println("---------------------------------------" + '\n');
 
 
         } catch (SQLException e) {
@@ -142,7 +142,7 @@ public class EnrollmentRepository {
         }
     }
 
-    public int findById(int studentId) {
+    public void findById(int studentId) {
         try (Connection connection = DBUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("select * from enrollment where student_id = ?");
         ) {
@@ -153,21 +153,19 @@ public class EnrollmentRepository {
                 Date enrollmentDate = rs.getDate("enrollment_date");
                 double grade = rs.getDouble("grade");
                 System.out.println("Student id: " + studentId + "  | Course Id: 0000" + courseId + " | Enrollment Date : " + enrollmentDate + " |  Grade: " + grade);
-                return courseId;
             }
 
         } catch (SQLException e) {
             System.out.println("Exception: " + e.getMessage());
-            ;
         }
-        return 0;
     }
-    public static List<Enrollment> getAllEnrollment(){
+
+    public static List<Enrollment> getAllEnrollment() {
         List<Enrollment> enrollments = new ArrayList<>();
-        try(Connection connection = DBUtil.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("select * from enrollment");
-            ResultSet rs = preparedStatement.executeQuery();){
-            while (rs.next()){
+        try (Connection connection = DBUtil.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("select * from enrollment");
+             ResultSet rs = preparedStatement.executeQuery();) {
+            while (rs.next()) {
                 Enrollment enrollment = new Enrollment(
                         rs.getInt("student_id"),
                         rs.getInt("course_id"),
@@ -176,9 +174,10 @@ public class EnrollmentRepository {
                 );
                 enrollments.add(enrollment);
             }
-        }catch (SQLException exception){
-            System.out.println("Exception: "+exception.getMessage());
+        } catch (SQLException exception) {
+            System.out.println("Exception: " + exception.getMessage());
         }
-        return enrollments;}
+        return enrollments;
+    }
 }
 

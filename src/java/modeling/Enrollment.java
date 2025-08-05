@@ -14,11 +14,6 @@ public class Enrollment {
         this.grade = grade;
     }
 
-    public Enrollment(LocalDate enrollmentDate, double grade){
-        this.enrollmentDate = enrollmentDate;
-        this.grade = grade;
-    }
-
     public int getStudentId() {
         return studentId;
     }

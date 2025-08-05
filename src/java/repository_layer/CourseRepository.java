@@ -2,6 +2,7 @@ package repository_layer;
 
 import modeling.Course;
 import util.DBUtil;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,6 +25,7 @@ public class CourseRepository {
 
         return courseList;
     }
+
     public void creatCourse(Course course) {
         try (Connection connection = DBUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("INSERT into course(title,department,credits) values (?,?,?)");
@@ -39,6 +41,7 @@ public class CourseRepository {
         }
 
     }
+
     public void readStudent(int courseID) {
         try (Connection connection = DBUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("select * from course where course_id = ?");
@@ -50,7 +53,7 @@ public class CourseRepository {
                 String departmentCourse = rs.getString("department");
                 int creditsCourse = rs.getInt("credits");
                 System.out.println(titleCourse.concat(" | ".concat(" id:  0000").concat(departmentCourse)).concat(" | ").concat(String.valueOf(creditsCourse)));
-                System.out.println("---------------------------------------"+'\n');
+                System.out.println("---------------------------------------" + '\n');
 
             }
 
@@ -58,6 +61,7 @@ public class CourseRepository {
             System.out.println("Exception: " + e.getMessage());
         }
     }
+
     public void updateStudent(int courseId, String title) {
         try (Connection connection = DBUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("update course set title =? where course_id= ?");
@@ -71,7 +75,7 @@ public class CourseRepository {
             System.out.println(numberAddStudent + "  Update Student...");
             System.out.println("---------------------------------------");
             System.out.println(" Update information for Course id: 0000" + courseId + " -> update title   |   new value of title: " + title);
-            System.out.println("---------------------------------------"+'\n');
+            System.out.println("---------------------------------------" + '\n');
 
 
         } catch (SQLException e) {
@@ -79,6 +83,7 @@ public class CourseRepository {
 
         }
     }
+
     public void dropStudent(int courseId) {
         try (Connection connection = DBUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("delete from course where course_id =?");
@@ -88,7 +93,7 @@ public class CourseRepository {
             System.out.println(numberAddStudent + "  Delete Course...");
             System.out.println("---------------------------------------");
             System.out.println("Course id : 0000" + courseId + " has delete of database...");
-            System.out.println("---------------------------------------"+'\n');
+            System.out.println("---------------------------------------" + '\n');
 
 
         } catch (SQLException e) {
@@ -96,6 +101,7 @@ public class CourseRepository {
 
         }
     }
+
     public int findById(String title) {
         try (Connection connection = DBUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("select course_id from course where title = ?");
@@ -114,6 +120,7 @@ public class CourseRepository {
         }
         return 0;
     }
+
     public static List<Course> getAllCourse() {
         List<Course> courses = new ArrayList<>();
         try (Connection connection = DBUtil.getConnection();

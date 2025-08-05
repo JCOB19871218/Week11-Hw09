@@ -1,8 +1,4 @@
 package modeling;
-
-import util.DBUtil;
-
-import java.sql.*;
 import java.time.LocalDate;
 
 public class Student {
@@ -26,6 +22,7 @@ public class Student {
         this.year = year;
         this.gpa = gpa;
     }
+    public Student(int id){this.id = id;}
 
     public void setId(int id) {
         this.id = id;

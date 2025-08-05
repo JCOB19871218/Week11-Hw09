@@ -58,18 +58,18 @@ public class Main {
                     System.out.println("Enter your date: ");
                     String enterDateUser = new Scanner(System.in).nextLine();
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-d");
-                    LocalDate dateUser = LocalDate.parse(enterDateUser,formatter);
+                    LocalDate dateUser = LocalDate.parse(enterDateUser, formatter);
                     EnrollmentFilter dateFilter = e -> e.getEnrollmentDate().isAfter(dateUser);
-                    EnrollmentService.givenCourseAfterGivenDate(students, enrollments, dateFilter, dateUser);
+                    EnrollmentService.givenCourseAfterGivenDate(students, enrollments, dateFilter);
                     break;
 
                 case 3:
                     // 3.Count all students older than a certain year using lambda
-                    System.out.println('\n' + " // 3.Count all students older than a certain year 2023/08/01) //  " + '\n');
+                    System.out.println('\n' + " // 3.Count all students older than a certain year ...) //  " + '\n');
                     System.out.println("Enter your date: ");
                     String enterDateUser1 = new Scanner(System.in).nextLine();
                     DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-M-d");
-                    LocalDate dateUser1 = LocalDate.parse(enterDateUser1,formatter1);
+                    LocalDate dateUser1 = LocalDate.parse(enterDateUser1, formatter1);
                     Predicate<Student> studentPredicate = s -> s.getYear().isBefore(dateUser1);
                     long countStudent = StudentService.countStudent(students, studentPredicate);
                     System.out.println("Count all students older than a certain year: " + countStudent);
@@ -78,17 +78,16 @@ public class Main {
                 case 4:
                     //4.Print courses in which the average grade is above ...
                     System.out.println('\n' + " // 4.Print courses in which the average grade is above ... //  " + '\n');
-                    System.out.println("Enter your average grade : "); double getAverageGrade = new Scanner(System.in).nextDouble();
-                    CourseService.averageGrade(enrollments, courses,getAverageGrade);
+                    System.out.println("Enter your average grade : ");
+                    double getAverageGrade = new Scanner(System.in).nextDouble();
+                    CourseService.averageGrade(enrollments, courses, getAverageGrade);
                     break;
 
                 case 5:
                     // 5. Print student names in uppercase (using Consumer<Student>)
                     System.out.println('\n' + " // 5. Print student names in uppercase (using Consumer<Student>) //  " + '\n');
                     Consumer<Student> consumer = student -> System.out.println("Student name change to UpperCase -> " + student.getName().toUpperCase());
-                    StudentRepository studentRepository = new StudentRepository();
-                    List<Student> studentList = studentRepository.getAllStudent();
-                    StudentService.printNameUpperCase(studentList, consumer);
+                    StudentService.printNameUpperCase(students, consumer);
                     break;
 
                 case 6:

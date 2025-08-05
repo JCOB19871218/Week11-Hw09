@@ -21,13 +21,18 @@ public class CourseService {
                     .mapToDouble(Enrollment::getGrade)
                     .average()
                     .orElse(0);
-
-//            if (average > 80.0)
+//
+//            if (average > getAverageGrade)
+//            {
+//                System.out.println(" CourseId: " + courseId);
+//                System.out.println(" Passed average >"+getAverageGrade+" check - Average for this course -> " +String.format("%.2f",average));
+//                System.out.println("_____________________________________________");}
             Optional.of(average)
                             .filter(avg -> avg >getAverageGrade)
                                     .ifPresent(avg ->{
-                                        System.out.println("Checking if average > 80.0 for courseId: " + courseId);
-                                        System.out.println(" Passed average > 80 check - Average -> " + average);
+                                        System.out.println(" CourseId: " + courseId);
+                System.out.println(" Passed average >"+getAverageGrade+" check - Average for this course -> " +String.format("%.2f",average));
+                System.out.println("_____________________________________________");
                                     });
 
 
