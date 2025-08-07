@@ -1,7 +1,8 @@
 package week11hw09.util.repository_layer;
 
 import week11hw09.util.modeling.Enrollment;
-import week11hw09.util.DBUtil;
+import week11hw09.util.db.DBUtil;
+import week11hw09.util.repository_layer.implRepository.EnrollmentRepository;
 
 import java.sql.*;
 import java.sql.Date;
@@ -10,9 +11,10 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 
-public class EnrollmentRepositoryImpl implements week11hw09.util.repository_layer.implRepository.EnrollmentRepository {
+public class EnrollmentRepositoryImpl implements EnrollmentRepository {
 
-    public List<Enrollment> getListEnrollment() {
+    @Override
+    public List<Enrollment> seedEnrollment() {
 
         StudentRepositoryImpl sr = new StudentRepositoryImpl();
         CourseRepositoryImpl cr = new CourseRepositoryImpl();
@@ -63,6 +65,7 @@ public class EnrollmentRepositoryImpl implements week11hw09.util.repository_laye
 
     }
 
+    @Override
     public void creatEnrollment(Enrollment enrollment) {
 
         try (Connection connection = DBUtil.getConnection();
@@ -83,6 +86,7 @@ public class EnrollmentRepositoryImpl implements week11hw09.util.repository_laye
 
     }
 
+    @Override
     public void readEnrollment(int studentId) throws SQLException {
         try (Connection connection = DBUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("select * from enrollment where student_id = ?");
@@ -100,6 +104,7 @@ public class EnrollmentRepositoryImpl implements week11hw09.util.repository_laye
         }
     }
 
+    @Override
     public void updateStudent(int studentId, double grade) {
         try (Connection connection = DBUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("update enrollment set grade =? where student_id= ?");
@@ -122,6 +127,7 @@ public class EnrollmentRepositoryImpl implements week11hw09.util.repository_laye
         }
     }
 
+    @Override
     public void dropStudent(int studentId) {
         try (Connection connection = DBUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("delete from enrollment where student_id =?");
@@ -140,6 +146,7 @@ public class EnrollmentRepositoryImpl implements week11hw09.util.repository_laye
         }
     }
 
+    @Override
     public void findById(int studentId) {
         try (Connection connection = DBUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("select * from enrollment where student_id = ?");
@@ -158,7 +165,8 @@ public class EnrollmentRepositoryImpl implements week11hw09.util.repository_laye
         }
     }
 
-    public  List<Enrollment> getAllEnrollment() {
+    @Override
+    public List<Enrollment> getAllEnrollment() {
         List<Enrollment> enrollments = new ArrayList<>();
         try (Connection connection = DBUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("select * from enrollment");
@@ -176,6 +184,43 @@ public class EnrollmentRepositoryImpl implements week11hw09.util.repository_laye
             System.out.println("Exception: " + exception.getMessage());
         }
         return enrollments;
+    }
+
+    @Override
+    public void creatTable() {
+        String sqlCreatEnrollmentTable = "create table enrollment\n" +
+                "(\n" +
+                "    course_id int not null,\n" +
+                "    student_id int not null,\n" +
+                "    enrollment_date date,\n" +
+                "    grade decimal,\n" +
+                "    foreign key (course_id) references course,\n" +
+                "    foreign key (student_id) references student\n" +
+                ")";
+
+        try (Connection connection = DBUtil.getConnection();
+             Statement statement = connection.createStatement();) {
+            statement.execute(sqlCreatEnrollmentTable);
+            System.out.println("Creat table enrollment..");
+
+
+        } catch (SQLException e) {
+            System.err.println("Exception: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void dropTable() {
+        String sqlDropEnrollmentTable = "drop table enrollment";
+
+        try (Connection connection = DBUtil.getConnection();
+             Statement statement = connection.createStatement();) {
+            statement.execute(sqlDropEnrollmentTable);
+            System.out.println("Drop table enrollment..");
+
+        } catch (SQLException e) {
+            System.err.println("Exception: " + e.getMessage());
+        }
     }
 }
 

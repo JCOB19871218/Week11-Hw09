@@ -8,4 +8,4 @@ import java.util.List;
 public interface CourseService {
     void averageGrade(List<Enrollment> enrollments, List<Course> courses, double getAverageGrade);
 
-    }
+}

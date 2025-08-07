@@ -5,7 +5,7 @@ import week11hw09.util.modeling.Course;
 import java.util.List;
 
 public interface CourseRepository {
-    List<Course> getListCourse();
+    List<Course> seedCourse();
 
     int findById(String title);
 
@@ -18,5 +18,9 @@ public interface CourseRepository {
     void updateStudent(int courseId, String title);
 
     void dropStudent(int courseId);
+
+    public void creatTable();
+
+    void dropTable();
 
 }

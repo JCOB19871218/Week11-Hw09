@@ -1,16 +1,17 @@
-package week11hw09.util;
+package week11hw09.util.db;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBUtil {
     private static final String url = "jdbc:postgresql://localhost:5432/crud";
-    private static final String username ="postgres";
-    private static final String pass= "J@h@n910";
-Connection connection;
+    private static final String username = "postgres";
+    private static final String pass = "J@h@n910";
+    Connection connection;
 
     public DBUtil() throws SQLException {
-        this.connection = DriverManager.getConnection(url,username,pass);
+        this.connection = DriverManager.getConnection(url, username, pass);
     }
 
     public String getUrl() {
@@ -26,7 +27,7 @@ Connection connection;
     }
 
     public static Connection getConnection() throws SQLException {
-        Connection connection = DriverManager.getConnection(url,username,pass);
+        Connection connection = DriverManager.getConnection(url, username, pass);
         return connection;
     }
 

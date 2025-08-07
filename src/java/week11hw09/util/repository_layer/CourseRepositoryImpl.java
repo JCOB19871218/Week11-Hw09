@@ -1,15 +1,17 @@
 package week11hw09.util.repository_layer;
 
 import week11hw09.util.modeling.Course;
-import week11hw09.util.DBUtil;
+import week11hw09.util.db.DBUtil;
+import week11hw09.util.repository_layer.implRepository.CourseRepository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CourseRepositoryImpl implements week11hw09.util.repository_layer.implRepository.CourseRepository {
-    public List<Course> getListCourse() {
+public class CourseRepositoryImpl implements CourseRepository {
+    @Override
+    public List<Course> seedCourse() {
         List<Course> courseList = Arrays.asList(
                 new Course("Computer Science", "Software", 4),
                 new Course("Software Engineering", "Software", 3),
@@ -26,6 +28,7 @@ public class CourseRepositoryImpl implements week11hw09.util.repository_layer.im
         return courseList;
     }
 
+    @Override
     public void creatCourse(Course course) {
         try (Connection connection = DBUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("INSERT into course(title,department,credits) values (?,?,?)");
@@ -42,6 +45,7 @@ public class CourseRepositoryImpl implements week11hw09.util.repository_layer.im
 
     }
 
+    @Override
     public void readStudent(int courseID) {
         try (Connection connection = DBUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("select * from course where course_id = ?");
@@ -62,6 +66,7 @@ public class CourseRepositoryImpl implements week11hw09.util.repository_layer.im
         }
     }
 
+    @Override
     public void updateStudent(int courseId, String title) {
         try (Connection connection = DBUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("update course set title =? where course_id= ?");
@@ -84,6 +89,7 @@ public class CourseRepositoryImpl implements week11hw09.util.repository_layer.im
         }
     }
 
+    @Override
     public void dropStudent(int courseId) {
         try (Connection connection = DBUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("delete from course where course_id =?");
@@ -102,6 +108,7 @@ public class CourseRepositoryImpl implements week11hw09.util.repository_layer.im
         }
     }
 
+    @Override
     public int findById(String title) {
         try (Connection connection = DBUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("select course_id from course where title = ?");
@@ -121,7 +128,8 @@ public class CourseRepositoryImpl implements week11hw09.util.repository_layer.im
         return 0;
     }
 
-    public  List<Course> getAllCourse() {
+    @Override
+    public List<Course> getAllCourse() {
         List<Course> courses = new ArrayList<>();
         try (Connection connection = DBUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("select * from course");
@@ -140,5 +148,40 @@ public class CourseRepositoryImpl implements week11hw09.util.repository_layer.im
         }
         return courses;
     }
+
+    @Override
+    public void creatTable() {
+        String sqlCreatCourseTable = "create table course\n" +
+                "(\n" +
+                "    course_id serial primary key,\n" +
+                "    title       varchar(50),\n" +
+                "    department      varchar(50),\n" +
+                "    credits       int\n" +
+                ")";
+
+        try (Connection connection = DBUtil.getConnection();
+             Statement statement = connection.createStatement();) {
+            statement.execute(sqlCreatCourseTable);
+            System.out.println("Creat table course......");
+
+        } catch (SQLException e) {
+            System.err.println("Exception: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void dropTable() {
+        String sqlDropCourseTable = "drop table course";
+
+        try (Connection connection = DBUtil.getConnection();
+             Statement statement = connection.createStatement();) {
+            statement.execute(sqlDropCourseTable);
+            System.out.println("Drop table course......");
+
+        } catch (SQLException e) {
+            System.err.println("Exception: " + e.getMessage());
+        }
+    }
+
 }
 

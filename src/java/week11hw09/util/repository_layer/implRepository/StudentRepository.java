@@ -21,4 +21,8 @@ public interface StudentRepository {
 
     List<Student> getAllStudent();
 
+    void creatTable();
+
+    void dropTable();
+
 }

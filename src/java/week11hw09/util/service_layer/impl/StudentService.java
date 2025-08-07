@@ -9,6 +9,8 @@ import java.util.function.Predicate;
 
 public interface StudentService {
     void findStudent(List<Student> studentList, StudentFilter gpaFilter, StudentFilter majorFilter);
+
     long countStudent(List<Student> students, Predicate<Student> predicate);
-    void printNameUpperCase(List<Student> students, Consumer<Student> consumer) ;
-    }
+
+    void printNameUpperCase(List<Student> students, Consumer<Student> consumer);
+}

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface EnrollmentRepository {
 
-    List<Enrollment> getListEnrollment();
+    List<Enrollment> seedEnrollment();
 
     void findById(int studentId);
 
@@ -20,6 +20,10 @@ public interface EnrollmentRepository {
     void updateStudent(int studentId, double grade);
 
     void dropStudent(int studentId);
+
+    void creatTable();
+
+    void dropTable();
 
 
 }

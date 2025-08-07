@@ -1,7 +1,8 @@
 package week11hw09.util.repository_layer;
 
 import week11hw09.util.modeling.Student;
-import week11hw09.util.DBUtil;
+import week11hw09.util.db.DBUtil;
+import week11hw09.util.repository_layer.implRepository.StudentRepository;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -9,8 +10,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class StudentRepositoryImpl implements week11hw09.util.repository_layer.implRepository.StudentRepository {
-    public  List<Student> seedStudent() {
+public class StudentRepositoryImpl implements StudentRepository {
+
+
+    public List<Student> seedStudent() {
         Student student1 = new Student("Jahan Esfandiyari", "Computer Science", LocalDate.of(1988, 3, 8), 18.00);
         Student student2 = new Student("Ali Omrani", "Database Systems", LocalDate.of(2000, 2, 2), 17.10);
         Student student3 = new Student("Ali Mortazavi", "Web Programming", LocalDate.of(2002, 12, 2), 17.00);
@@ -27,6 +30,7 @@ public class StudentRepositoryImpl implements week11hw09.util.repository_layer.i
         return students;
     }
 
+    @Override
     public void creatStudent(Student student) {
         try (Connection connection = DBUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("INSERT into student(name,major,year,gpa) values (?,?,?,?)");
@@ -44,6 +48,7 @@ public class StudentRepositoryImpl implements week11hw09.util.repository_layer.i
 
     }
 
+    @Override
     public void readStudent(int studentId) {
         try (Connection connection = DBUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("select * from student where student_id = ?");
@@ -65,6 +70,7 @@ public class StudentRepositoryImpl implements week11hw09.util.repository_layer.i
         }
     }
 
+    @Override
     public void updateStudent(int studentId, double gpa) {
         try (Connection connection = DBUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("update student set gpa =? where student_id= ?");
@@ -87,6 +93,7 @@ public class StudentRepositoryImpl implements week11hw09.util.repository_layer.i
         }
     }
 
+    @Override
     public void dropStudent(int studentId) {
         try (Connection connection = DBUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("delete from student where student_id =?");
@@ -105,6 +112,7 @@ public class StudentRepositoryImpl implements week11hw09.util.repository_layer.i
         }
     }
 
+    @Override
     public int findById(String name) {
         try (Connection connection = DBUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("select student_id from student where name = ?");
@@ -127,7 +135,8 @@ public class StudentRepositoryImpl implements week11hw09.util.repository_layer.i
         return 0;
     }
 
-    public  List<Student> getAllStudent() {
+    @Override
+    public List<Student> getAllStudent() {
         List<Student> students = new ArrayList<>();
         try (Connection connection = DBUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("select * from student");
@@ -146,5 +155,40 @@ public class StudentRepositoryImpl implements week11hw09.util.repository_layer.i
             System.out.println("Exception: " + exception.getMessage());
         }
         return students;
+    }
+
+    @Override
+    public void creatTable() {
+        String sqlCreatsStudentTable = "create table student\n" +
+                "(\n" +
+                "    student_id serial primary key,\n" +
+                "    name       varchar(50),\n" +
+                "    major      varchar(50),\n" +
+                "    year       date,\n" +
+                "    gpa        decimal\n" +
+                ")";
+        try (Connection connection = DBUtil.getConnection();
+             Statement statement = connection.createStatement();) {
+            statement.execute(sqlCreatsStudentTable);
+            System.out.println("Creat table student.....");
+
+
+        } catch (SQLException e) {
+            System.err.println("Exception: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void dropTable() {
+        String sqlDropStudentTable = "drop table student";
+
+        try (Connection connection = DBUtil.getConnection();
+             Statement statement = connection.createStatement();) {
+            statement.execute(sqlDropStudentTable);
+            System.out.println("Drop table student.....");
+
+        } catch (SQLException e) {
+            System.err.println("Exception: " + e.getMessage());
+        }
     }
 }

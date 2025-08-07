@@ -1,4 +1,5 @@
 package week11hw09.util.service_layer;
+
 import week11hw09.util.modeling.Course;
 import week11hw09.util.modeling.Enrollment;
 import week11hw09.util.service_layer.impl.CourseService;
@@ -10,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class CourseServiceImpl implements CourseService {
     @Override
-    public  void averageGrade(List<Enrollment> enrollments, List<Course> courses,double getAverageGrade) {
+    public void averageGrade(List<Enrollment> enrollments, List<Course> courses, double getAverageGrade) {
         Map<Integer, List<Enrollment>> groupByCourse = enrollments.stream()
                 .collect(Collectors.groupingBy(Enrollment::getCourseId));
 
@@ -29,12 +30,12 @@ public class CourseServiceImpl implements CourseService {
 //                System.out.println(" Passed average >"+getAverageGrade+" check - Average for this course -> " +String.format("%.2f",average));
 //                System.out.println("_____________________________________________");}
             Optional.of(average)
-                            .filter(avg -> avg >getAverageGrade)
-                                    .ifPresent(avg ->{
-                                        System.out.println(" CourseId: " + courseId);
-                System.out.println(" Passed average >"+getAverageGrade+" check - Average for this course -> " +String.format("%.2f",average));
-                System.out.println("_____________________________________________");
-                                    });
+                    .filter(avg -> avg > getAverageGrade)
+                    .ifPresent(avg -> {
+                        System.out.println(" CourseId: " + courseId);
+                        System.out.println(" Passed average >" + getAverageGrade + " check - Average for this course -> " + String.format("%.2f", average));
+                        System.out.println("_____________________________________________");
+                    });
 
 
         }

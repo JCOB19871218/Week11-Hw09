@@ -9,21 +9,23 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class StudentServiceImpl implements StudentService {
-    
+
     @Override
     public void findStudent(List<Student> studentList, StudentFilter gpaFilter, StudentFilter majorFilter) {
         studentList.stream().filter(s -> gpaFilter.matches(s) && majorFilter.matches(s))
                 .forEach(System.out::println);
 
     }
+
     @Override
-    public  long countStudent(List<Student> students, Predicate<Student> predicate) {
+    public long countStudent(List<Student> students, Predicate<Student> predicate) {
         return students.stream()
                 .filter(predicate)
                 .count();
     }
-@Override
-    public  void printNameUpperCase(List<Student> students, Consumer<Student> consumer) {
+
+    @Override
+    public void printNameUpperCase(List<Student> students, Consumer<Student> consumer) {
         students.stream().forEach(consumer);
     }
 }

@@ -11,6 +11,7 @@ public class Course {
         this.department = department;
         this.credits = credits;
     }
+
     public Course(int id, String title, String department, int credits) {
         this.id = id;
         this.title = title;
@@ -21,24 +22,29 @@ public class Course {
     public int getId() {
         return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }
+
     public String getTitle() {
         return title;
     }
+
     public String getDepartment() {
         return department;
     }
+
     public int getCredits() {
         return credits;
     }
+
     @Override
     public String toString() {
-        return "Course Detail: " +'\n'+
+        return "Course Detail: " + '\n' +
                 "Title= " + title +
                 "    |    Department= " + department +
-                "    |    Credits=" + credits +'\n'+
-                "_______________________________"+'\n';
+                "    |    Credits=" + credits + '\n' +
+                "_______________________________" + '\n';
     }
 }

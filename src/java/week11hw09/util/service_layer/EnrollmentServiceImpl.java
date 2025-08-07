@@ -8,8 +8,8 @@ import week11hw09.util.service_layer.impl.EnrollmentService;
 import java.util.List;
 
 public class EnrollmentServiceImpl implements EnrollmentService {
-@Override
-public void givenCourseAfterGivenDate(List<Student> students, List<Enrollment> enrollmentList, EnrollmentFilter filter) {
+    @Override
+    public void givenCourseAfterGivenDate(List<Student> students, List<Enrollment> enrollmentList, EnrollmentFilter filter) {
         enrollmentList.stream()
                 .filter(filter::matches)
                 .forEach(System.out::println);
